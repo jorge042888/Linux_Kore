@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404: Ruta no encontrada | Linux-Kore</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <main class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; max-width: 600px; margin: 0 auto; text-align: center;">
+        <article>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--accent-primary); line-height: 1;">404</div>
+          <div class="terminal-container" style="margin: 2rem 0; text-align: left;">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">bash</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line">
+                <span class="terminal-prompt">
+                  <span class="user">root@linux-kore</span><span class="separator">:</span><span class="path">~</span><span class="dollar">$</span>
+                </span>
+                cd /ruta/que/no/existe
+              </div>
+              <div class="terminal-line error">bash: cd: /ruta/que/no/existe: No existe el archivo o el directorio</div>
+              <div class="terminal-line">
+                <span class="terminal-prompt">
+                  <span class="user">root@linux-kore</span><span class="separator">:</span><span class="path">~</span><span class="dollar">$</span>
+                </span>
+                echo "La página que buscas no existe o fue movida."
+              </div>
+              <div class="terminal-line">La página que buscas no existe o fue movida.</div>
+            </div>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Puedes volver al inicio o usar la navegación lateral para encontrar lo que necesitas.
+          </p>
+          <a href="../index.html" class="seq-btn" style="display: inline-flex;">← Volver al inicio</a>
+        </article>
+      </main>
+    </div>
+
+    <button id="theme-toggle" aria-label="Cambiar tema">☀</button>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

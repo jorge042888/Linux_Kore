@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filesystem — Linux-Kore</title>
+  <meta name="description" content="Estructura de archivos en Linux, FHS, tipos de archivos y navegación por directorios." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/terminal.css" />
+  <link rel="stylesheet" href="/styles/quiz.css" />
+  <link rel="stylesheet" href="/styles/pages/filesystem.css" />
+</head>
+<body>
+  <button class="sidebar-toggle" aria-label="Abrir menú" id="sidebar-toggle">☰</button>
+
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-logo">Linux-Kore</div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulo 01 — La Comunidad Linux</div>
+      <a href="/pages/historia-linux.html" class="nav-link">1.1 Sistemas operativos y evolución</a>
+      <a href="#" class="nav-link">1.2 Aplicaciones de código abierto</a>
+      <a href="#" class="nav-link">1.3 Software libre y licencias</a>
+      <a href="#" class="nav-link">1.4 Destrezas TIC y trabajo con Linux</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulo 02 — Encontrando el Camino</div>
+      <a href="#" class="nav-link">2.1 Línea de comandos básica</a>
+      <a href="#" class="nav-link">2.2 Obtener ayuda</a>
+      <a href="/pages/filesystem.html" class="nav-link active">2.3 Directorios y archivos</a>
+      <a href="#" class="nav-link">2.4 Crear, mover y borrar</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulo 03 — El Poder de la CLI</div>
+      <a href="#" class="nav-link">3.1 Archivar ficheros</a>
+      <a href="#" class="nav-link">3.2 Buscar y extraer datos</a>
+      <a href="#" class="nav-link">3.3 Crear scripts</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulo 04 — El Sistema Operativo</div>
+      <a href="#" class="nav-link">4.1 Elección del SO</a>
+      <a href="#" class="nav-link">4.2 Hardware del ordenador</a>
+      <a href="/pages/filesystem.html" class="nav-link">4.3 Almacenamiento de datos</a>
+      <a href="#" class="nav-link">4.4 Tu ordenador en la red</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulo 05 — Seguridad y Permisos</div>
+      <a href="#" class="nav-link">5.1 Seguridad y tipos de usuario</a>
+      <a href="#" class="nav-link">5.2 Crear usuarios y grupos</a>
+      <a href="#" class="nav-link">5.3 Permisos y propiedad</a>
+      <a href="#" class="nav-link">5.4 Archivos especiales</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Sistema</div>
+      <a href="/" class="nav-link">Inicio</a>
+      <a href="/pages/about.html" class="nav-link">Créditos</a>
+    </div>
+    <div style="flex:1"></div>
+    <div class="theme-toggle-container" id="theme-toggle-container"></div>
+  </nav>
+
+  <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
+
+  <main class="main-content page-content">
+    <nav class="breadcrumb reveal" aria-label="Breadcrumb">
+      <a href="/">Inicio</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="#">Módulo 02</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Filesystem</span>
+    </nav>
+
+    <header class="page-header reveal">
+      <span class="section-tag glow-cyan">// MÓDULO 02 — SUBTEMA 2.3 / MÓDULO 04 — SUBTEMA 4.3</span>
+      <h1 class="page-title glitch" data-text="El Filesystem de Linux">El Filesystem de Linux</h1>
+      <p class="page-subtitle">En Linux, todo es un archivo. Los dispositivos, los procesos, la configuración del sistema: todo se representa como un nodo en una estructura jerárquica de árboles. Comprender esta estructura es fundamental para cualquier administrador o usuario del sistema.</p>
+    </header>
+
+    <!-- FHS Interactive Tree -->
+    <section class="section reveal">
+      <h2 class="section-title"><span class="glow-green">01</span> Árbol FHS interactivo</h2>
+      <p class="section-intro">El Filesystem Hierarchy Standard (FHS) es el estándar que define la estructura de directorios en sistemas Linux. Especifica qué tipo de archivos debe encontrarse en cada directorio del sistema. Esto garantiza que los usuarios y administradores puedan encontrar los archivos que necesitan sin importar qué distribución estén usando.</p>
+
+      <div class="fhs-container reveal-scale">
+        <div class="fhs-tree" id="fhs-tree"></div>
+        <div class="fhs-detail" id="fhs-detail">
+          <div class="fhs-detail-placeholder">
+            <span class="glow-green">📂</span>
+            <p>Selecciona un directorio para ver su descripción</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- File Types -->
+    <section class="section reveal-left">
+      <h2 class="section-title"><span class="glow-magenta">02</span> Tipos de archivos</h2>
+      <p class="section-intro">Linux reconoce varios tipos de archivos, cada uno con un propósito diferente. El primer carácter del resultado de <code>ls -l</code> indica el tipo de archivo. Conocer estas diferencias es esencial para entender cómo el sistema opera y cómo administrar los recursos correctamente.</p>
+
+      <div class="file-types-grid stagger-children reveal">
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-cyan);">📄</div>
+          <h4>Archivos regulares</h4>
+          <p>Contienen datos: texto, imágenes, binarios, documentos, cualquier información que el usuario o el sistema necesite almacenar. Es el tipo más común del sistema. Pueden contener datos estructurados como bases de datos, código fuente o simplemente notas de texto.</p>
+          <code>-rw-r--r--  1 usuario usuario 4096 ene 15 10:30 documento.txt</code>
+        </div>
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-green);">📁</div>
+          <h4>Directorios</h4>
+          <p>Contienen otros archivos y directorios formando la estructura jerárquica. Cada directorio puede contener una cantidad ilimitada de entradas. Los directorios vacíos todavía ocupan un bloque en disco y contienen las entradas especiales <code>.</code> (actual) y <code>..</code> (padre).</p>
+          <code>drwxr-xr-x  2 usuario usuario 4096 ene 15 10:30 documentos/</code>
+        </div>
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-magenta);">🔗</div>
+          <h4>Enlaces simbólicos</h4>
+          <p>Punteros que referencian otro archivo por su ruta. Si el archivo original se elimina o mueve, el enlace se rompe (queda apuntando a nada). Son extremadamente útiles para crear accesos directos o mantener versiones de archivos de configuración sin modificar el original.</p>
+          <code>lrwxrwxrwx  1 usuario usuario   18 ene 15 10:30 config -> /etc/app/config.conf</code>
+        </div>
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-orange);">⚙</div>
+          <h4>Dispositivos de bloque</h4>
+          <p>Representan hardware de almacenamiento como discos duros (<code>/dev/sda</code>), discos SSD (<code>/dev/nvme0n1</code>) y dispositivos USB. Se accede a ellos por bloques de datos de tamaño fijo. Cada partición del disco tiene su propio archivo de dispositivo.</p>
+          <code>brw-rw----  1 root disk 8, 0 ene 15 10:30 /dev/sda</code>
+        </div>
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-yellow);">📦</div>
+          <h4>Archivos de socket</h4>
+          <p>Puntos de comunicación entre procesos (IPC). Permiten que dos procesos se comuniquen en tiempo real a través de la red o localmente. Son fundamentales para servicios como bases de datos PostgreSQL, servidores web y sistemas de mensajería.</p>
+          <code>srw-rw-rw-  1 root root 0 ene 15 10:30 /var/run/mysqld/mysqld.sock</code>
+        </div>
+        <div class="file-type-card">
+          <div class="file-type-icon" style="color: var(--neon-cyan);">🔗</div>
+          <h4>Enlaces duros</h4>
+          <p>Copia del inode (nodo i) que apunta a los mismos datos físicos en disco. A diferencia de los simbólicos, no se rompen si se borra el original porque apuntan directamente a los bloques de datos. No pueden cruzar límites de partición.</p>
+          <code>(mismo inode 1234567 -rw-r--r-- 2 usuario usuario)</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paths Section -->
+    <section class="section reveal-right">
+      <h2 class="section-title"><span class="glow-cyan">03</span> Rutas absolutas vs relativas</h2>
+      <p class="section-intro">Cada archivo en Linux tiene una ruta (path) que lo identifica de forma única. Entender la diferencia entre rutas absolutas y relativas es fundamental para navegar el sistema de archivos y escribir scripts correctamente.</p>
+
+      <div class="paths-comparison reveal">
+        <div class="path-box">
+          <div class="path-label glow-green">Ruta absoluta</div>
+          <p class="path-example">/home/usuario/documentos/archivo.txt</p>
+          <p class="path-desc">Siempre comienza desde <code>/</code> (raíz del sistema). Es la ruta completa e inmutable sin importar dónde te encuentres en el sistema. Es la forma más segura de referenciar archivos en scripts porque no depende del directorio de trabajo actual.</p>
+        </div>
+        <div class="path-box">
+          <div class="path-label glow-cyan">Ruta relativa</div>
+          <p class="path-example">../documentos/archivo.txt</p>
+          <p class="path-desc">Parte de tu ubicación actual. Usa <code>.</code> para referenciar el directorio actual y <code>..</code> para el directorio padre. Es más corta pero depende del contexto. Es útil para referenciar archivos cercanos en la estructura del proyecto.</p>
+        </div>
+      </div>
+
+      <div class="path-table reveal">
+        <table>
+          <thead>
+            <tr><th>Símbolo</th><th>Significado</th><th>Ejemplo de uso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/</code></td><td>Raíz del sistema — punto de partida de toda la jerarquía</td><td><code>ls /etc/passwd</code></td></tr>
+            <tr><td><code>~</code></td><td>Home del usuario actual (~ = /home/usuario)</td><td><code>cd ~ && ls</code></td></tr>
+            <tr><td><code>.</code></td><td>Directorio actual — útil para ejecutar programas locales</td><td><code>./mi_script.sh</code></td></tr>
+            <tr><td><code>..</code></td><td>Directorio padre — subir un nivel en la jerarquía</td><td><code>cd ../otro</code></td></tr>
+            <tr><td><code>-</code></td><td>Último directorio visitado — alternar entre dos ubicaciones</td><td><code>cd - && cd -</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Navigation Commands -->
+    <section class="section reveal-left">
+      <h2 class="section-title"><span class="glow-green">04</span> Comandos de navegación esenciales</h2>
+      <p class="section-intro">Estos son los comandos básicos que todo usuario de Linux debe dominar para moverse eficientemente por el sistema de archivos. Cada uno tiene múltiples opciones que permiten personalizar su comportamiento.</p>
+
+      <div class="commands-grid stagger-children reveal">
+        <div class="command-card">
+          <div class="command-name glow-green">pwd</div>
+          <p>Muestra la ruta completa del directorio de trabajo actual ("Print Working Directory"). Es útil cuando estás perdido en el sistema o necesitas la ruta absoluta para un script.</p>
+          <code>$ pwd
+/home/usuario
+$ cd /etc
+$ pwd
+/etc</code>
+        </div>
+        <div class="command-card">
+          <div class="command-name glow-green">ls</div>
+          <p>Lista los archivos y directorios del directorio actual. Es el comando más usado en Linux. Las flags más importantes: <code>-l</code> formato largo, <code>-a</code> incluir ocultos, <code>-la</code> combinación, <code>-lh</code> tamaños legibles.</p>
+          <code>$ ls -la
+drwxr-xr-x 3 usuario usuario 4096 .
+drwxr-xr-x 5 usuario usuario 4096 ..
+-rw-r--r-- 1 usuario usuario  220 .bashrc
+-rw-r--r-- 1 usuario usuario  807 document.txt
+drwxr-xr-x 2 usuario usuario 4096 documentos</code>
+        </div>
+        <div class="command-card">
+          <div class="command-name glow-green">cd</div>
+          <p>Cambia el directorio de trabajo. Sin argumentos regresa al home. Acepta rutas absolutas, relativas y los atajos <code>~</code>, <code>-</code>, <code>.</code>, <code>..</code>. Es el comando más básico para la navegación.</p>
+          <code>$ cd /var/log      # ir a ruta absoluta
+$ cd ../etc        # ruta relativa al padre
+$ cd ~             # volver al home
+$ cd -             # volver al directorio anterior</code>
+        </div>
+        <div class="command-card">
+          <div class="command-name glow-green">file</div>
+          <p>Identifica el tipo real de un archivo analizando su contenido (magic numbers), no su extensión. Es especialmente útil cuando la extensión es engañosa o el archivo no tiene extensión.</p>
+          <code>$ file imagen.png
+imagen.png: PNG image data, 800x600, 8-bit/color
+$ file /bin/ls
+/bin/ls: ELF 64-bit LSB shared object
+$ file script.sh
+script.sh: Bourne-Again shell script</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terminal Simulator -->
+    <section class="section reveal">
+      <h2 class="section-title"><span class="glow-magenta">05</span> Terminal interactivo</h2>
+      <p class="section-intro">Practica los comandos en un terminal simulado con un filesystem en memoria. Este simulador incluye un árbol de archivos realista. Prueba los comandos: <code>ls</code>, <code>cd</code>, <code>pwd</code>, <code>cat</code>, <code>mkdir</code>, <code>touch</code>, <code>rm</code>, <code>whoami</code>, <code>clear</code>, <code>help</code>.</p>
+
+      <div class="terminal-container reveal-scale" data-interactive>
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+          </div>
+          <div class="terminal-title">bash — 80×24</div>
+        </div>
+        <div class="terminal-output" role="log" aria-live="polite" aria-label="Salida del terminal"></div>
+        <div class="terminal-input-line">
+          <span class="terminal-prompt"><span class="terminal-user">usuario@linux-kore</span>:<span class="terminal-path">~</span>$ </span>
+          <input type="text" class="terminal-input" aria-label="Comando del terminal" autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="sequential-nav reveal" aria-label="Navegación secuencial">
+      <a href="/pages/historia-linux.html" class="nav-prev">← Historia de Linux</a>
+      <a href="/" class="nav-next">Volver al inicio →</a>
+    </nav>
+
+    <!-- Quiz -->
+    <section class="section reveal" id="quiz-section">
+      <div class="quiz-wrapper" data-quiz-id="filesystem"></div>
+    </section>
+
+    <!-- Cheat Sheet -->
+    <section class="section reveal">
+      <h2 class="section-title"><span class="glow-green">📋</span> Cheat Sheet — Filesystem</h2>
+      <div class="cheat-sheet">
+        <div class="cheat-row"><span class="cheat-key">/</span><span>Raíz del sistema de archivos — punto de partida de toda la jerarquía</span></div>
+        <div class="cheat-row"><span class="cheat-key">/home</span><span>Directorios personales de cada usuario — documentos, configuración personal</span></div>
+        <div class="cheat-row"><span class="cheat-key">/etc</span><span>Archivos de configuración del sistema — passwd, fstab, hosts, shadow</span></div>
+        <div class="cheat-row"><span class="cheat-key">/var</span><span>Datos variables — logs (/var/log), caché, colas de correo, bases de datos</span></div>
+        <div class="cheat-row"><span class="cheat-key">/usr</span><span>Programas y bibliotecas — /usr/bin, /usr/lib, /usr/share, /usr/local</span></div>
+        <div class="cheat-row"><span class="cheat-key">/tmp</span><span>Archivos temporales — se borran al reiniciar — cualquier usuario puede escribir</span></div>
+        <div class="cheat-row"><span class="cheat-key">/proc</span><span>Filesystem virtual — información del kernel y procesos en tiempo real</span></div>
+        <div class="cheat-row"><span class="cheat-key">/dev</span><span>Dispositivos de hardware — /dev/sda, /dev/null, /dev/tty</span></div>
+        <div class="cheat-row"><span class="cheat-key">/bin</span><span>Ejecutables esenciales — ls, cp, mv, rm, cat, chmod, mkdir</span></div>
+        <div class="cheat-row"><span class="cheat-key">/boot</span><span>Archivos de arranque — kernel (vmlinuz), initrd, bootloader (GRUB)</span></div>
+        <div class="cheat-row"><span class="cheat-key">/lib</span><span>Bibliotecas compartidas (.so) necesarias por /bin y /sbin</span></div>
+        <div class="cheat-row"><span class="cheat-key">/opt</span><span>Software de terceros — aplicaciones grandes como Google Chrome, Steam</span></div>
+        <div class="cheat-row"><span class="cheat-key">pwd</span><span>Print Working Directory — muestra directorio actual</span></div>
+        <div class="cheat-row"><span class="cheat-key">ls -la</span><span>Listado detallado con archivos ocultos y permisos completos</span></div>
+        <div class="cheat-row"><span class="cheat-key">cd ~</span><span>Volver al home del usuario actual</span></div>
+        <div class="cheat-row"><span class="cheat-key">file [archivo]</span><span>Identificar tipo real de un archivo por su contenido</span></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Linux-Kore · Basado en el material de LPI Linux Essentials v1.6 · Contenido educativo</p>
+    </footer>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module">
+    import { initQuiz } from '/src/components/quiz.ts';
+    import { quizFilesystem } from '/src/data/quiz-filesystem.ts';
+    import { createTerminal } from '/src/components/terminal.ts';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('.quiz-wrapper');
+      if (wrapper) initQuiz(wrapper, quizFilesystem);
+
+      const termContainer = document.querySelector('.terminal-container[data-interactive]');
+      if (termContainer) createTerminal(termContainer);
+
+      buildFHSTree();
+    });
+
+    function buildFHSTree() {
+      const tree = document.getElementById('fhs-tree');
+      const detail = document.getElementById('fhs-detail');
+      if (!tree || !detail) return;
+
+      const dirs = [
+        { name: '/', desc: 'Raíz del sistema. De aquí parten todos los directorios. Nunca se debe borrar contenido aquí sin conocer las consecuencias, ya que contamine el sistema completo.', color: 'var(--neon-green)', children: ['bin','boot','dev','etc','home','lib','opt','proc','root','sbin','tmp','usr','var'] },
+        { name: '/home', desc: 'Directorio personal de cada usuario. Aquí están tus documentos, configuraciones personales (archivos ocultos como .bashrc, .ssh/) y descargas. Cada usuario tiene su propio subdirectorio.', color: 'var(--neon-cyan)', children: ['usuario'] },
+        { name: '/etc', desc: 'Archivos de configuración del sistema. Contiene configuraciones de servicios, usuarios (/etc/passwd), grupos (/etc/group), montaje de discos (/etc/fstab) y hosts de red (/etc/hosts).', color: 'var(--neon-magenta)', children: ['passwd','group','fstab','hosts','shadow','hostname','resolv.conf'] },
+        { name: '/var', desc: 'Datos que cambian frecuentemente durante la operación del sistema. Incluye logs del sistema (/var/log), caché de paquetes (/var/cache), bases de datos y colas de correo.', color: 'var(--neon-cyan)', children: ['log','cache','lib','tmp','spool','www'] },
+        { name: '/usr', desc: 'Contiene la mayor parte del software del sistema. /usr/bin (programas), /usr/lib (bibliotecas), /usr/local (software instalado manualmente), /usr/share (documentación y datos compartidos).', color: 'var(--neon-green)', children: ['bin','lib','local','share','include','src'] },
+        { name: '/tmp', desc: 'Archivos temporales que se borran al reiniciar el sistema. Cualquier usuario puede escribir aquí. Algunos servicios usan /tmp para archivos de trabajo temporales.', color: 'var(--neon-yellow)', children: [] },
+        { name: '/proc', desc: 'Filesystem virtual que no existe en disco. Contiene información en tiempo real del kernel: información del CPU (/proc/cpuinfo), memoria (/proc/meminfo), version del kernel y procesos en ejecución.', color: 'var(--neon-magenta)', children: ['cpuinfo','meminfo','version','loadavg','uptime'] },
+        { name: '/dev', desc: 'Dispositivos de hardware representados como archivos especiales. /dev/null (dispositivo nulo), /dev/zero (ceros infinitos), /dev/sda (disco principal), /dev/tty (terminal).', color: 'var(--neon-orange)', children: ['null','zero','sda','tty','random','urandom'] },
+        { name: '/bin', desc: 'Ejecutables esenciales del sistema necesarios para el arranque y funcionamiento básico: ls, cp, mv, rm, cat, chmod, mkdir, pwd, grep, bash.', color: 'var(--neon-green)', children: [] },
+        { name: '/boot', desc: 'Archivos de arranque del sistema: kernel de Linux (vmlinuz), imagen initrd (disco ram initial), configuración del bootloader GRUB. No se debe modificar manualmente.', color: 'var(--neon-cyan)', children: [] },
+        { name: '/lib', desc: 'Bibliotecas compartidas (.so) necesarias por los ejecutables de /bin y /sbin durante el arranque y operación del sistema.', color: 'var(--neon-magenta)', children: [] },
+        { name: '/opt', desc: 'Software de terceros instalado manualmente, generalmente aplicaciones grandes que no siguen la estructura estándar: Google Chrome, Steam, Slack, etc.', color: 'var(--neon-yellow)', children: [] },
+        { name: '/root', desc: 'Home del usuario root (administrador del sistema). No es accesible para otros usuarios por razones de seguridad. Contiene configuraciones personales del administrador.', color: '#ff4444', children: [] },
+        { name: '/sbin', desc: 'Ejecutables del sistema para tareas de administración: fdisk, iptables, init, shutdown, mount, ifconfig. Solo el usuario root puede ejecutarlos directamente.', color: 'var(--neon-orange)', children: [] },
+      ];
+
+      tree.innerHTML = dirs.map((d, i) => `
+        <button class="fhs-node ${i === 0 ? 'active' : ''}" data-index="${i}" style="--node-color: ${d.color}">
+          <span class="fhs-node-icon">📁</span>
+          <span class="fhs-node-name">${d.name}</span>
+        </button>
+      `).join('');
+
+      showDetail(0);
+
+      tree.querySelectorAll('.fhs-node').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          tree.querySelectorAll('.fhs-node').forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          showDetail(parseInt(btn.getAttribute('data-index') || '0'));
+        });
+      });
+
+      function showDetail(index) {
+        const d = dirs[index];
+        detail.innerHTML = `
+          <div class="fhs-detail-header">
+            <h3 style="color: ${d.color}">${d.name}</h3>
+          </div>
+          <p>${d.desc}</p>
+          ${d.children.length > 0 ? `
+            <div class="fhs-detail-children">
+              <span class="fhs-detail-label">Contenido:</span>
+              <div class="fhs-detail-list">
+                ${d.children.map((c) => `<span class="fhs-detail-item">${c}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

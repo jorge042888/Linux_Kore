@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acerca de | Linux-Kore</title>
+    <meta name="description" content="Sobre Linux-Kore: herramienta de estudio basada en LPI Linux Essentials v1.6." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <aside class="sidebar" role="navigation" aria-label="Navegación principal">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <span class="logo-icon">&#xf17c;</span> Linux-Kore
+          </div>
+          <div class="sidebar-version">v1.0 — LPI Essentials 1.6</div>
+        </div>
+        <nav class="sidebar-nav">
+          <div class="nav-section">
+            <a href="../index.html" style="display: block; padding: 0.6rem 1.25rem; color: var(--accent-primary); font-size: 0.9rem;">← Volver al inicio</a>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <div class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="../index.html">Inicio</a>
+          <span class="separator">/</span>
+          <span class="current">Acerca de</span>
+        </div>
+
+        <article class="content-section">
+          <h1>Acerca de Linux-Kore</h1>
+
+          <section style="margin-bottom: 2rem;">
+            <h2>Qué es Linux-Kore</h2>
+            <p>
+              <strong>Linux-Kore</strong> es una herramienta web interactiva de estudio y referencia sobre los fundamentos del sistema operativo Linux, con enfoque en distribuciones basadas en Debian.
+            </p>
+            <p>
+              Está diseñada para estudiantes, profesionales y entusiastas que buscan un resumen estructurado, interactivo y de fácil acceso de los conceptos esenciales de Linux.
+            </p>
+          </section>
+
+          <section style="margin-bottom: 2rem;">
+            <h2>Características principales</h2>
+            <ul>
+              <li><strong>Contenido estructurado</strong> por temas y subtemas siguiendo el temario de LPI Linux Essentials v1.6.</li>
+              <li><strong>Terminal simulador</strong> para practicar comandos básicos en un entorno seguro.</li>
+              <li><strong>Autoevaluaciones</strong> con preguntas de opción múltiple e inmediato.</li>
+              <li><strong>Cheat sheets imprimibles</strong> con los comandos y conceptos clave de cada tema.</li>
+              <li><strong>Seguimiento de progreso</strong> con exportación e importación de datos.</li>
+              <li><strong>Diseño responsive</strong> y modo claro/oscuro.</li>
+              <li><strong>Accesibilidad</strong> completa: navegación por teclado, ARIA, soporte para lectores de pantalla.</li>
+            </ul>
+          </section>
+
+          <section style="margin-bottom: 2rem;">
+            <h2>Fuente de material</h2>
+            <p>
+              El contenido de esta herramienta está basado en el material de aprendizaje oficial de
+              <strong>Linux Professional Institute (LPI)</strong> para la certificación
+              <strong>Linux Essentials (Examen 010-160), versión 1.6</strong>.
+            </p>
+            <p>
+              El material original está licenciado bajo <strong>CC BY-NC-ND 4.0</strong> y está disponible en
+              <a href="https://learning.lpi.org/es/learning-materials-linux-essentials/" target="_blank" rel="noopener">learning.lpi.org</a>.
+            </p>
+          </section>
+
+          <section style="margin-bottom: 2rem;">
+            <h2>Aviso importante</h2>
+            <p>
+              <strong>Linux-Kore no es material oficial de LPI.</strong> El contenido ha sido parafraseado, reestructurado y complementado con fines educativos.
+              No pretende sustituir el material de estudio oficial ni garantiza la aprobación de la certificación.
+            </p>
+            <p>
+              Las marcas registradas mencionadas (Linux, LPI, Debian, Ubuntu, Red Hat, SUSE, etc.) pertenecen a sus respectivos propietarios.
+            </p>
+          </section>
+
+          <section>
+            <h2>Tecnologías utilizadas</h2>
+            <ul>
+              <li><strong>Vite</strong> — Build tool y dev server</li>
+              <li><strong>TypeScript</strong> — Lenguaje de programación estricto</li>
+              <li><strong>HTML5</strong> — Marcado semántico</li>
+              <li><strong>CSS3</strong> — Custom properties, diseño responsive</li>
+              <li><strong>Vitest</strong> — Testing framework</li>
+            </ul>
+          </section>
+        </article>
+
+        <footer class="site-footer">
+          <p>Linux-Kore — Material de estudio no oficial. Basado en LPI Linux Essentials v1.6.</p>
+        </footer>
+      </main>
+    </div>
+
+    <button id="theme-toggle" aria-label="Cambiar tema">☀</button>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

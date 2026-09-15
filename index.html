@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux-Kore — Aprende Linux desde cero</title>
+  <meta name="description" content="Plataforma interactiva de aprendizaje Linux. Temario LPI, terminal simulado, autoevaluación y seguimiento de progreso." />
+  <meta name="keywords" content="Linux, LPI, aprendizaje, terminal, Debian, curso interactivo" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/pages/landing.css" />
+</head>
+<body>
+  <!-- Scan lines overlay is in global.css via body::after -->
+
+  <!-- Sidebar Toggle (mobile) -->
+  <button class="sidebar-toggle" aria-label="Abrir menú" id="sidebar-toggle">☰</button>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-logo">Linux-Kore</div>
+    <div class="nav-section">
+      <div class="nav-section-title">Módulos</div>
+      <a href="/" class="nav-link active">Inicio</a>
+      <a href="/pages/historia-linux.html" class="nav-link">Historia de Linux</a>
+      <a href="/pages/filesystem.html" class="nav-link">Filesystem</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Sistema</div>
+      <a href="/pages/about.html" class="nav-link">Créditos</a>
+    </div>
+    <div style="flex:1"></div>
+    <div class="theme-toggle-container" id="theme-toggle-container"></div>
+  </nav>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content page-content">
+
+    <!-- HERO -->
+    <section class="hero">
+      <canvas id="matrix-canvas" class="hero-canvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          INTERACTIVO &middot; LPI v1.6
+        </div>
+        <h1 class="hero-title glitch" data-text="Linux-Kore">Linux-Kore</h1>
+        <p class="hero-subtitle" data-type="Domina Linux desde la línea de comandos hasta la administración del sistema" data-type-speed="30"></p>
+        <div class="hero-actions">
+          <a href="/pages/historia-linux.html" class="btn btn-primary">
+            <span class="btn-icon">▶</span> Comenzar
+          </a>
+          <a href="#topics" class="btn">
+            <span class="btn-icon">📋</span> Ver temario
+          </a>
+        </div>
+        <div class="hero-stats stagger-children reveal">
+          <div class="hero-stat">
+            <span class="hero-stat-value glow-green">5</span>
+            <span class="hero-stat-label">Módulos</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value glow-cyan">19</span>
+            <span class="hero-stat-label">Subtemas</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value glow-magenta">∞</span>
+            <span class="hero-stat-label">Práctica</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <span>scroll</span>
+        <div class="hero-scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- PROGRESS DASHBOARD -->
+    <section class="section progress-section reveal" id="progress">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag glow-cyan">// PROGRESO</span>
+          <h2>Tu avance en el sistema</h2>
+        </div>
+        <div class="progress-dashboard">
+          <div class="progress-ring-container">
+            <svg class="progress-ring" viewBox="0 0 120 120">
+              <circle class="progress-ring-bg" cx="60" cy="60" r="54" />
+              <circle class="progress-ring-fill" cx="60" cy="60" r="54" id="progress-ring-fill" />
+            </svg>
+            <div class="progress-ring-text" id="progress-percentage">0%</div>
+          </div>
+          <div class="progress-info">
+            <div class="progress-bar-container">
+              <div class="progress-bar-label">
+                <span>Subtemas completados</span>
+                <span id="progress-count">0 / 19</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+              </div>
+            </div>
+            <div class="progress-actions">
+              <button class="btn" id="export-progress" style="font-size:0.75rem; padding:0.5rem 1rem;">
+                ↓ Exportar JSON
+              </button>
+              <label class="btn" for="import-progress" style="font-size:0.75rem; padding:0.5rem 1rem; cursor:pointer;">
+                ↑ Importar JSON
+              </label>
+              <input type="file" id="import-progress" accept=".json" style="display:none" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS GRID (Bento) -->
+    <section class="section" id="topics">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag glow-green">// TEMARIO</span>
+          <h2>Módulos de aprendizaje</h2>
+          <p style="margin-top: var(--space-sm);">Cada módulo incluye contenido interactivo, quiz de autoevaluación y cheat sheet imprimible.</p>
+        </div>
+        <div class="bento-grid stagger-children reveal" id="topics-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag glow-magenta">// HERRAMIENTAS</span>
+          <h2>Todo lo que necesitas para dominar Linux</h2>
+        </div>
+        <div class="features-grid stagger-children reveal">
+          <div class="feature-card">
+            <div class="feature-icon glow-green">⌨</div>
+            <h3>Terminal Simulado</h3>
+            <p>Practica comandos reales en un terminal interactivo con filesystem en memoria.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon glow-cyan">📝</div>
+            <h3>Autoevaluación</h3>
+            <p>Quizzes por subtema con feedback inmediato y tracking de tu progreso.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon glow-magenta">📄</div>
+            <h3>Cheat Sheets</h3>
+            <p>Resúmenes imprimibles de cada módulo para tener siempre a mano.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon glow-green">📊</div>
+            <h3>Progreso</h3>
+            <p>Guarda tu avance localmente y exporta/importa tu estado.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>Linux-Kore es un proyecto educativo basado en el material de referencia de <a href="https://linuxprofessionalinstitute.com/" target="_blank" rel="noopener">LPI</a>. Contenido para estudio, no afiliado a LPI.</p>
+    </footer>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+/* ============================================
+   Linux-Kore — Print Styles for Cheat Sheets
+   ============================================ */
+
+@media print {
+  * {
+    box-shadow: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  .sidebar,
+  .site-footer,
+  .sequential-nav,
+  .copy-btn,
+  #theme-toggle,
+  .no-print,
+  .progress-bar-container,
+  .quiz-container,
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  .page-wrapper {
+    display: block !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .cheat-sheet-header {
+    text-align: center;
+    border-bottom: 2px solid black;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cheat-sheet-header h1 {
+    font-size: 18pt;
+    color: black;
+  }
+
+  .cheat-sheet-header p {
+    color: #444;
+    font-size: 9pt;
+  }
+
+  pre {
+    background: #f5f5f5 !important;
+    border: 1px solid #999;
+    color: black;
+    font-size: 8.5pt;
+    padding: 0.5rem;
+    page-break-inside: avoid;
+  }
+
+  pre code {
+    color: black !important;
+  }
+
+  code {
+    background: #f0f0f0;
+    color: black;
+    padding: 0.1em 0.3em;
+    font-size: 9pt;
+  }
+
+  h1, h2, h3, h4 {
+    color: black;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 14pt;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.3rem;
+  }
+
+  h3 {
+    font-size: 12pt;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5rem 0;
+    font-size: 9pt;
+  }
+
+  th, td {
+    border: 1px solid #999;
+    padding: 0.3rem 0.5rem;
+    text-align: left;
+  }
+
+  th {
+    background: #eee;
+    font-weight: bold;
+  }
+
+  .cheat-sheet-footer {
+    margin-top: 2rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #ccc;
+    font-size: 8pt;
+    color: #666;
+    text-align: center;
+  }
+
+  @page {
+    margin: 1.5cm;
+  }
+}

@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+*.local
+*.log
+coverage
+*.pdf
+system_prompt_inicial.txt
+package-lock.json

@@ -1,0 +1,127 @@
+/* ============================================
+   TERMINAL COMPONENT — Cyberpunk
+   ============================================ */
+
+.terminal-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 1px var(--neon-green);
+  transition: box-shadow var(--transition-base);
+}
+
+.terminal-container:focus-within {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--neon-green-glow);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-md);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #28c840; }
+
+.terminal-title {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.terminal-output {
+  padding: var(--space-lg);
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.terminal-output:empty::before {
+  content: 'Linux-Kore terminal v1.0 — Escribe "help" para ver los comandos disponibles.';
+  color: var(--text-dim);
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.terminal-prompt {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.terminal-user {
+  color: var(--neon-green);
+}
+
+.terminal-path {
+  color: var(--neon-cyan);
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  caret-color: var(--neon-green);
+}
+
+.terminal-input::selection {
+  background: rgba(0, 255, 65, 0.2);
+}
+
+/* Terminal color classes */
+.terminal-green { color: var(--neon-green); }
+.terminal-cyan { color: var(--neon-cyan); }
+.terminal-magenta { color: var(--neon-magenta); }
+.terminal-yellow { color: var(--neon-yellow); }
+.terminal-red { color: #ff4444; }
+.terminal-blue { color: #4488ff; }
+.terminal-white { color: var(--text-primary); }
+.terminal-dim { color: var(--text-dim); }
+
+/* Scrollbar */
+.terminal-output::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
